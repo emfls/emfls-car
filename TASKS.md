@@ -22,7 +22,7 @@
 ## P2 — Content expansion
 
 - [x] P2 Launch QA 및 배포 준비 점검
-- [x] Production Deployment: Cloudflare Pages 및 `car.emfls.com` 연결
+- [x] Production Deployment: Cloudflare Pages 및 `car.emfls.com` 연결 (`PRODUCTION LIVE`)
 - [ ] 카테고리별 콘텐츠 확장
 - [ ] 관련 콘텐츠 연결
 - [ ] 추가 자동차 계산기

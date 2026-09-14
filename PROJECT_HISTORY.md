@@ -285,7 +285,7 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 
 배포 후 실제 도메인에서 Cloudflare Pages 응답 헤더, Search Console 색인 상태, 모바일 실기기 시각 QA를 확인한다.
 
-## 2026-09-14 — Production Deployment 준비 및 Cloudflare Pages 연결
+## 2026-09-14 — Production Deployment 및 `car.emfls.com` 연결
 
 ### 배포 대상
 
@@ -296,13 +296,31 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - Output directory: `dist`
 - Astro output: static, `site: https://car.emfls.com`
 
-### 진행 상태
+### 배포 결과
 
-- Cloudflare Pages에 `emfls-car` 프로젝트를 생성하고 GitHub `emfls/emfls-car`를 연결했다.
+- Cloudflare Pages에 `emfls-car` 전용 프로젝트를 생성하고 GitHub `emfls/emfls-car`를 연결했다.
+- Production deployment `c7e7a40b`가 `main` 커밋 `5c24b98` 기준으로 생성됐다.
+- Cloudflare build 단계와 deploy 단계가 모두 `success`로 완료됐다.
 - 기존 `emfls-home`, `emfls-site` Pages 프로젝트와 다른 EMFLS 프로젝트는 수정하지 않았다.
-- 최초 연결 시점에는 기존 커밋에 대한 배포가 생성되지 않아, 이 기록 커밋을 `main`에 push하여 GitHub 연동 Production 배포를 트리거한다.
-- Custom Domain `car.emfls.com` 연결과 Production URL QA는 배포 완료 후 이어서 확인한다.
+- Custom Domain `car.emfls.com`을 Pages 프로젝트에 연결하고 `car.emfls.com → emfls-car.pages.dev` CNAME만 추가했다.
+- Custom Domain API 상태는 `active`, HTTP validation과 HTTPS certificate validation도 `active`다.
 
-### 다음 권장 작업
+### Production QA
 
-최신 Cloudflare Production deployment가 성공한 뒤 `car.emfls.com` Custom Domain, HTTPS, 주요 route, 계산기·플래너, sitemap·robots·canonical을 실제 응답 기준으로 검증한다.
+- `https://car.emfls.com/` 접속 및 HTTPS 확인
+- `/guides/`, 대표 가이드 10개, `/tools/`, 연비 계산기, 유지관리 플래너, `/about/`, `/privacy/`, `/contact/`, 존재하지 않는 경로의 404 화면 확인
+- Production HTML의 title, h1, canonical이 `https://car.emfls.com/...` 기준으로 생성되는 것을 확인
+- 연비 계산기에서 600 / 45 / 1,650 입력 시 `13.33 km/L`, `74,250원`, `123.75원/km`, `12,375원` 확인
+- 연비 계산기 0 입력 시 페이지 내부 validation message 확인
+- 유지관리 플래너 입력·우선순위 결과·브레이크 관련 guide link 확인
+- build 산출물의 `robots.txt`와 `sitemap.xml`은 `car.emfls.com` 기준으로 유지되며, sitemap 대상은 기존 로컬 QA에서 확인했다.
+
+### 검증 명령
+
+- `npm test`: 9 tests passed
+- `npm run check`: 0 errors / 0 warnings / 0 hints
+- `npm run build`: 33 pages built
+
+### 참고 및 다음 권장 작업
+
+- Search Console은 아직 등록하지 않았다. 다음 단계에서 `https://car.emfls.com/`을 속성으로 등록하고 `https://car.emfls.com/sitemap.xml`을 제출한다.
