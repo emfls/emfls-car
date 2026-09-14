@@ -29,6 +29,7 @@
 
 ## P3 — Optimization
 
+- [x] Search Console 초기 설정 및 sitemap 제출
 - [ ] Search Console 데이터 기반 개선
 - [ ] Winner 콘텐츠 확장
 - [ ] 접근성·성능 세부 최적화

@@ -323,4 +323,42 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 
 ### 참고 및 다음 권장 작업
 
-- Search Console은 아직 등록하지 않았다. 다음 단계에서 `https://car.emfls.com/`을 속성으로 등록하고 `https://car.emfls.com/sitemap.xml`을 제출한다.
+- 다음 단계에서 Search Console 보고서가 누적된 뒤 실제 검색어·색인 데이터를 기준으로 개선한다.
+
+## 2026-09-14 — Google Search Console 초기 색인 준비
+
+### Property 및 Verification
+
+- `sc-domain:car.emfls.com` Domain property를 등록 시도했다.
+- Google이 발급한 실제 DNS token `google-site-verification=jmItycse5k8ak6mbGftrdO74Si7-010A0JckultrQIs`를 확인했다.
+- `car.emfls.com` CNAME과 동일 호스트의 TXT 검증은 DNS 구조상 Google에서 인정되지 않았다. Google Cloudflare 연동이 요구한 zone apex `emfls.com` TXT도 추가했지만 Domain property는 미검증 상태로 남았다.
+- 코드 변경을 최소화하기 위해 URL-prefix property `https://car.emfls.com/`를 대체 등록하고, 동일한 실제 token의 HTML meta tag를 `BaseLayout.astro`에 추가했다.
+- URL-prefix property 소유권은 Google Search Console에서 `HTML 태그` 방식으로 확인 완료했다.
+
+### Sitemap 및 URL Inspection
+
+- `https://car.emfls.com/sitemap.xml` 제출 완료
+- Search Console 상태: `성공`, 발견된 페이지 18개, 동영상 0개
+- URL Inspection 완료:
+  - `https://car.emfls.com/`: URL이 Google에 등록됨
+  - `https://car.emfls.com/guides/`: 미등록이지만 sitemap에서 발견됨, 색인 요청됨
+  - `https://car.emfls.com/tools/fuel-economy/`: 미등록, 색인 요청됨
+  - `https://car.emfls.com/tools/maintenance-planner/`: 미등록, 색인 요청됨
+- 홈페이지, 가이드 목록, 연비 계산기, 유지관리 플래너에 우선순위 색인 요청을 보냈다.
+- 대표 가이드 개별 URL은 sitemap 전체 발견에 맡기고 수동 요청을 확대하지 않았다.
+
+### 변경 파일 및 검증
+
+- 수정: `src/layouts/BaseLayout.astro`, `TASKS.md`, `PROJECT_HISTORY.md`
+- `npm test`: 9 tests passed
+- `npm run check`: 0 errors / 0 warnings / 0 hints
+- `npm run build`: 33 pages built
+- Search Console 작업 중 다른 EMFLS property, 다른 subdomain, 기존 `car.emfls.com` CNAME은 수정하지 않았다.
+
+### 현재 상태 및 다음 작업
+
+- Search Console URL-prefix 초기 설정: 완료
+- Sitemap 제출 및 핵심 URL Inspection: 완료
+- Google 검색 결과의 전체 색인은 아직 진행 중이며 즉시 색인 여부를 완료 조건으로 삼지 않는다.
+- Domain property는 CNAME/TXT 충돌로 미검증 상태이므로, 필요하면 향후 Google Search Console 또는 Cloudflare DNS 구조 변경 가능성을 별도 검토한다.
+- 다음 작업: AdSense 심사 준비 최종 점검 및 emfls.com 네트워크 운영 구조에 맞는 광고 적용 전략 수립.
