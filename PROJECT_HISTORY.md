@@ -284,3 +284,25 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 ### 다음 권장 작업
 
 배포 후 실제 도메인에서 Cloudflare Pages 응답 헤더, Search Console 색인 상태, 모바일 실기기 시각 QA를 확인한다.
+
+## 2026-09-14 — Production Deployment 준비 및 Cloudflare Pages 연결
+
+### 배포 대상
+
+- GitHub Repo: `https://github.com/emfls/emfls-car.git`
+- Production branch: `main`
+- Cloudflare Pages project: `emfls-car` 전용 프로젝트 생성
+- Build command: `npm run build`
+- Output directory: `dist`
+- Astro output: static, `site: https://car.emfls.com`
+
+### 진행 상태
+
+- Cloudflare Pages에 `emfls-car` 프로젝트를 생성하고 GitHub `emfls/emfls-car`를 연결했다.
+- 기존 `emfls-home`, `emfls-site` Pages 프로젝트와 다른 EMFLS 프로젝트는 수정하지 않았다.
+- 최초 연결 시점에는 기존 커밋에 대한 배포가 생성되지 않아, 이 기록 커밋을 `main`에 push하여 GitHub 연동 Production 배포를 트리거한다.
+- Custom Domain `car.emfls.com` 연결과 Production URL QA는 배포 완료 후 이어서 확인한다.
+
+### 다음 권장 작업
+
+최신 Cloudflare Production deployment가 성공한 뒤 `car.emfls.com` Custom Domain, HTTPS, 주요 route, 계산기·플래너, sitemap·robots·canonical을 실제 응답 기준으로 검증한다.
