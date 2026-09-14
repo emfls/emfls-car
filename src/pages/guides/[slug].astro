@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import GuideDetail from '@/components/GuideDetail.astro';
+import { guides, guideDetails } from '@/data/content';
+export function getStaticPaths() { return guides.map((guide) => ({ params: { slug: guide.slug }, props: { guide } })); }
+const { guide } = Astro.props;
+const detail = guideDetails.find((item) => item.slug === guide.slug);
+---
+<BaseLayout title={detail?.seoTitle ?? guide.title} description={detail?.description ?? guide.summary}>
+  <section class="page-hero guide-page-hero"><div class="container"><p class="eyebrow">GUIDE / {guide.tag}</p><h1>{detail?.title ?? guide.title}</h1><p>{detail?.lead ?? guide.summary}</p><a class="guide-back" href="/guides/">← 전체 가이드</a></div></section>
+  <section class="section"><div class="container guide-detail-wrap">{detail ? <GuideDetail detail={detail} /> : <div class="prose"><div class="notice">이 주제는 핵심 내용을 확장할 수 있는 기본 안내 페이지입니다.</div><h2>{guide.title}</h2><p>{guide.summary}</p></div>}</div></section>
+</BaseLayout>
+{detail && <script is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Article', headline: detail.title, description: detail.description, mainEntityOfPage: `${Astro.site?.toString().replace(/\/$/, '') ?? 'https://car.emfls.com'}${Astro.url.pathname}` })} />}

@@ -1,0 +1,15 @@
+---
+import type { GuideDetail } from '@/data/content';
+interface Props { detail: GuideDetail }
+const { detail } = Astro.props;
+const statusLabel = { NORMAL: 'NORMAL', CHECK: 'CHECK', ATTENTION: 'ATTENTION', WARNING: 'WARNING' };
+---
+<article class="guide-detail">
+  <div class="guide-status-bar"><span class={`guide-status guide-status-${detail.status.toLowerCase()}`}><i aria-hidden="true"></i>{statusLabel[detail.status]}</span><span class="guide-status-note">MANUAL FIRST · SAFETY AWARE</span></div>
+  <div class="guide-answer"><p class="eyebrow">AT A GLANCE</p><h2>{detail.answer}</h2><ul>{detail.summary.map((item) => <li>{item}</li>)}</ul></div>
+  {detail.sections.map((section) => <section class="guide-section"><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul class="check-list">{section.bullets.map((item) => <li>{item}</li>)}</ul>}</section>)}
+  {detail.steps && <section class="guide-section"><h2>직접 확인하는 순서</h2><ol class="step-list">{detail.steps.map((step, index) => <li><span>{String(index + 1).padStart(2, '0')}</span><p>{step}</p></li>)}</ol></section>}
+  {detail.warning && <aside class="guide-warning"><strong>SAFETY NOTE</strong><p>{detail.warning}</p></aside>}
+  <section class="guide-section guide-faq"><h2>자주 묻는 질문</h2>{detail.faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>
+  <section class="guide-related"><p class="eyebrow">RELATED / NEXT CHECK</p><div>{detail.related.map((link) => <a class="button button-secondary" href={link.href}>{link.label} <span aria-hidden="true">→</span></a>)}</div></section>
+</article>

@@ -1,0 +1,6 @@
+---
+import type { Guide } from '@/data/content';
+interface Props { guide: Guide }
+const { guide } = Astro.props;
+---
+<a class="guide-card" href={`/guides/${guide.slug}/`}><div class="card-top"><span class={`status-pill status-${guide.status}`}>{guide.tag}</span><span aria-hidden="true">↗</span></div><h3>{guide.title}</h3><p>{guide.summary}</p><span class="card-category">{guide.category}</span></a>

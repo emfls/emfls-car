@@ -1,0 +1,6 @@
+---
+import type { Tool } from '@/data/content';
+interface Props { tool: Tool }
+const { tool } = Astro.props;
+---
+{tool.state === 'planned' ? <div class="tool-card is-planned" aria-label={`${tool.title} 준비 중`}><span class="tool-icon" aria-hidden="true">⌁</span><span><strong>{tool.title}</strong><small>{tool.summary}</small></span><span class="tool-arrow" aria-hidden="true">SOON</span></div> : <a class="tool-card" href={`/tools/${tool.slug}/`}><span class="tool-icon" aria-hidden="true">⌁</span><span><strong>{tool.title}</strong><small>{tool.summary}</small></span><span class="tool-arrow" aria-hidden="true">→</span></a>}

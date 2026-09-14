@@ -1,0 +1,15 @@
+---
+import { site } from '@/data/site';
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="EMFLS CAR 홈">
+      <span class="brand-mark">E</span>
+      <span><strong>EMFLS</strong><small>CAR / VEHICLE GUIDE</small></span>
+    </a>
+    <nav aria-label="주요 메뉴">
+      {site.navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <a class="header-cta" href="/tools/">도구 보기 <span aria-hidden="true">↗</span></a>
+  </div>
+</header>

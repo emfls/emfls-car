@@ -1,0 +1,7 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { tools } from '@/data/content';
+export function getStaticPaths() { return tools.filter((tool) => tool.state === 'ready' && !['fuel-economy', 'maintenance-planner'].includes(tool.slug)).map((tool) => ({ params: { slug: tool.slug }, props: { tool } })); }
+const { tool } = Astro.props;
+---
+<BaseLayout title={tool.title} description={tool.summary}><section class="page-hero"><div class="container"><p class="eyebrow">TOOL / {tool.state === 'planned' ? 'COMING SOON' : 'READY'}</p><h1>{tool.title}</h1><p>{tool.summary}</p></div></section><section class="section"><div class="container prose"><div class="notice">이 도구는 P1 구현을 위해 구조만 준비된 상태입니다. 현재는 입력값을 받거나 실제 차량 데이터를 처리하지 않습니다.</div><h2>준비 중인 기능</h2><p>간단한 입력과 명확한 결과를 제공하는 자동차 도구로 확장될 예정입니다. 계산 결과는 차량 제조사 권장값이나 전문가 점검을 대체하지 않습니다.</p><a class="button button-secondary" href="/tools/">전체 도구로 돌아가기 <span aria-hidden="true">→</span></a></div></section></BaseLayout>

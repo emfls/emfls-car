@@ -1,0 +1,4 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'; import GuideCard from '@/components/GuideCard.astro'; import { guides, categories } from '@/data/content';
+---
+<BaseLayout title="자동차 가이드" description="정비, 소모품, 타이어, 운전과 중고차까지 자동차 생활 가이드."><section class="page-hero"><div class="container"><p class="eyebrow">KNOWLEDGE BASE / 01</p><h1>자동차 가이드</h1><p>차량을 오래 타기 위해 알아야 할 핵심 정보를 주제별로 정리합니다. 대표 가이드는 점검 기준과 안전 주의사항까지 함께 제공합니다.</p></div></section><section class="list-section"><div class="container"><div class="categories" style="margin-bottom:34px">{categories.map((category) => <a class="category-chip" href={`/guides/category/${category.slug}/`}>{category.label}<span>↗</span></a>)}</div><div class="guide-grid">{guides.map((guide) => <GuideCard guide={guide} />)}</div></div></section></BaseLayout>

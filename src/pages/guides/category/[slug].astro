@@ -1,0 +1,8 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import GuideCard from '@/components/GuideCard.astro';
+import { categories, guides } from '@/data/content';
+export function getStaticPaths() { return categories.map((category) => ({ params: { slug: category.slug }, props: { category, related: guides.filter((guide) => guide.category === category.label) } })); }
+const { category, related } = Astro.props;
+---
+<BaseLayout title={`${category.label} 가이드`} description={category.description} noindex={!related.length}><section class="page-hero"><div class="container"><p class="eyebrow">CATEGORY / {category.label}</p><h1>{category.label}</h1><p>{category.description}. 이 페이지는 카테고리별 콘텐츠를 확장할 수 있는 데이터 기반 구조입니다.</p></div></section><section class="list-section"><div class="container">{related.length ? <div class="guide-grid">{related.map((guide) => <GuideCard guide={guide} />)}</div> : <div class="empty-note">현재 등록된 가이드가 없습니다.</div>}</div></section></BaseLayout>
