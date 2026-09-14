@@ -362,3 +362,39 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - Google 검색 결과의 전체 색인은 아직 진행 중이며 즉시 색인 여부를 완료 조건으로 삼지 않는다.
 - Domain property는 CNAME/TXT 충돌로 미검증 상태이므로, 필요하면 향후 Google Search Console 또는 Cloudflare DNS 구조 변경 가능성을 별도 검토한다.
 - 다음 작업: AdSense 심사 준비 최종 점검 및 emfls.com 네트워크 운영 구조에 맞는 광고 적용 전략 수립.
+
+## 2026-09-14 — AdSense 심사 준비 QA
+
+### 점검 범위
+
+- 대상은 `emfls-car`와 Production `https://car.emfls.com/`으로 한정했다.
+- 홈페이지, 자동차 가이드 10개, 연비 계산기, 유지관리 플래너, About, Privacy, Contact, 내비게이션과 검색 노출 구조를 점검했다.
+- 다른 EMFLS 프로젝트, 다른 subdomain, Cloudflare 설정은 변경하지 않았다.
+
+### 콘텐츠·신뢰성 결과
+
+- 대표 가이드 10개는 핵심 요약, 판단 기준, 확인 방법, 주의사항, FAQ, 관련 링크를 갖춘 실제 상세 콘텐츠로 유지된다.
+- About은 사이트 목적과 정보 작성 원칙을 설명하고, Privacy·Contact는 정적 사이트의 데이터 처리 범위와 문의 기능 부재를 명시한다.
+- 라이브 계산기와 플래너를 단순 예시로 오해하게 만들던 홈페이지·도구 목록 문구를 운영 상태에 맞게 수정했다.
+- 빈 카테고리는 기존 정책대로 `noindex,follow`이며, 준비 중인 도구는 상세 route를 만들지 않고 안내 카드로만 노출된다.
+
+### 광고·검색 노출 원칙
+
+- AdSense 코드, Publisher ID, `ads.txt`, Analytics는 추가하지 않았다.
+- `car.emfls.com`은 `emfls.com` 네트워크의 하위 사이트로 취급하며 독립 AdSense 등록을 전제하지 않는다.
+- 향후 광고는 핵심 답변, 계산기 입력·결과, 경고 메시지, 내비게이션과 분리하고 명확한 광고 표기와 모바일 가독성을 우선한다. 원칙은 `DESIGN_SYSTEM.md`에 기록했다.
+- Sitemap은 실제 대표 indexable URL 18개를 포함하며, 33개 build route와의 차이는 404·빈/비대표 카테고리·레거시 요약 route·준비 중 route를 검색 대상에서 제외하는 현재 정책에 따른다.
+
+### 변경 파일 및 검증
+
+- 수정: `src/pages/index.astro`, `src/pages/tools/index.astro`, `src/pages/privacy/index.astro`, `DESIGN_SYSTEM.md`, `TASKS.md`, `PROJECT_HISTORY.md`
+- `npm test`: 9 tests passed
+- `npm run check`: 0 errors / 0 warnings / 0 hints
+- `npm run build`: 33 pages built
+- Production과 Search Console은 기존 확인 상태를 유지하며, 이번 QA에서는 코드에 광고·추적 기능을 추가하지 않았다.
+
+### 최종 판정 및 다음 작업
+
+- 최종 판정: `ADSENSE READY WITH MINOR ITEMS`
+- 남은 비차단 항목은 Domain property 미검증 상태, Google의 전체 색인 대기, 향후 실제 문의 채널 연결이다.
+- 다음 작업은 Search Console 데이터가 누적된 뒤 검색어·색인·콘텐츠 성과를 기준으로 개선하고, 광고 도입 시 별도 정책·배치 검토를 거치는 것이다.
