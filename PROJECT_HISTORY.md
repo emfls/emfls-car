@@ -442,10 +442,10 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 
 - 원인: 네이버 인증 HTML이 repository root에만 있어 Astro/Cloudflare Pages build의 웹 루트로 복사되지 않았고 Production URL이 404를 반환했다.
 - 1차 수정으로 원본 filename과 verification content를 유지한 채 `public/naver6dde13e69fe8ec25cd17e085c65c2124.html`로 이동했지만, Cloudflare Pages custom domain과 `pages.dev` 양쪽에서 계속 404가 발생했다.
-- 두 번째 수정으로 endpoint를 만들었지만 Cloudflare Pages의 trailing slash 정규화가 `.html` 요청을 확장자 없는 경로로 308 redirect했다.
-- 최종 수정은 `public/_redirects`의 정확한 `.html` rewrite와 `/naver-verification` endpoint를 조합해 redirect 없이 원본 verification content를 반환하도록 했다.
-- 확인: `npm test` 9/9, `npm run check` 0 errors/0 warnings/0 hints, `npm run build` 성공. 최종 Production에서 HTTP 200과 원본 body를 확인한다.
-- Astro/Cloudflare 소유확인 URL은 repository root가 아닌 public web root 또는 Pages rewrite를 통해 exact URL 응답을 보장해야 한다.
+- Astro endpoint와 Pages `_redirects` rewrite도 시험했지만 Cloudflare Pages가 `.html` 요청을 확장자 없는 URL로 자동 308 redirect해 exact URL 200을 만들지 못했다.
+- Cloudflare 공식 Pages 동작상 HTML 파일은 extensionless counterpart로 redirect될 수 있으므로, 이 요구사항을 충족하려면 Pages HTML handling 설정 변경 또는 별도 Worker/Cloudflare routing이 필요하다.
+- 효과 없는 우회 설정은 제거하고 원본 파일은 `public/naver6dde13e69fe8ec25cd17e085c65c2124.html`에 유지했다. 로컬 build output에는 동일 content의 `dist/naver6dde13e69fe8ec25cd17e085c65c2124.html`이 생성된다.
+- 현재 Production verification URL은 HTTP 308 상태이므로 네이버 소유확인 완료로 판정하지 않는다.
 
 ## 2026-09-15 — GA4 연결
 
