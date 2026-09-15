@@ -438,6 +438,13 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - Car 전용 1200×630 social preview raster 제작
 - Search Console·GA4 데이터 누적 후 콘텐츠와 접근성 세부 개선
 
+## 2026-09-15 — Naver 소유확인 파일 배치 수정
+
+- 원인: 네이버 인증 HTML이 repository root에만 있어 Astro/Cloudflare Pages build의 웹 루트로 복사되지 않았고 Production URL이 404를 반환했다.
+- 수정: 원본 filename과 verification content를 유지한 채 `public/naver6dde13e69fe8ec25cd17e085c65c2124.html`로 이동했다.
+- 확인: `npm test` 9/9, `npm run check` 0 errors/0 warnings/0 hints, `npm run build` 34 pages 성공. `dist/naver6dde13e69fe8ec25cd17e085c65c2124.html`이 원본과 byte-for-byte 동일하게 생성됐다.
+- Astro/Cloudflare 정적 소유확인 파일은 repository root가 아니라 `public/`에 배치해야 한다는 운영 원칙을 기록했다.
+
 ## 2026-09-15 — GA4 연결
 
 ### 구현
