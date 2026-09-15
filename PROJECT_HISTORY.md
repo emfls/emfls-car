@@ -419,4 +419,6 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 
 ### 배포
 
-- 변경사항은 `main`에 push할 예정이며, Cloudflare Pages Git 자동 배포와 Production에서 `G-PL6SGETMVL` script 로딩을 확인한다.
+- commit `7d25e35`를 `main`에 push했다.
+- Cloudflare Pages Git 자동 배포 후 `https://car.emfls.com/`에서 HTTP 200과 `G-PL6SGETMVL` Google tag loader를 확인했다.
+- `/privacy/` Production 응답에서 GA4 안내 문구와 입력값 서버 DB 비저장 안내를 확인했다.
