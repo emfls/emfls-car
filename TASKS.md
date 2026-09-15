@@ -31,6 +31,7 @@
 
 - [x] Search Console 초기 설정 및 sitemap 제출
 - [x] AdSense 심사 준비 QA 및 광고 미삽입 원칙 점검
+- [x] GA4 연결 및 Production 전용 측정 설정
 - [ ] Search Console 데이터 기반 개선
 - [ ] Winner 콘텐츠 확장
 - [ ] 접근성·성능 세부 최적화

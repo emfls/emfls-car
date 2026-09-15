@@ -13,6 +13,7 @@ interface Props {
 
 const { title, description = site.description, path = Astro.url.pathname, noindex = false } = Astro.props;
 const canonical = new URL(path, site.domain).toString();
+const isProduction = Astro.url.hostname === 'car.emfls.com';
 ---
 <!doctype html>
 <html lang="ko">
@@ -31,6 +32,15 @@ const canonical = new URL(path, site.domain).toString();
     <meta property="og:url" content={canonical} />
     <title>{title} · {site.name}</title>
     <script is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.domain, description })} />
+    {isProduction && <>
+      <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-PL6SGETMVL"></script>
+      <script is:inline define:vars={{ measurementId: 'G-PL6SGETMVL' }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', measurementId);
+      </script>
+    </>}
   </head>
   <body>
     <Header />

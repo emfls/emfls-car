@@ -398,3 +398,25 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - 최종 판정: `ADSENSE READY WITH MINOR ITEMS`
 - 남은 비차단 항목은 Domain property 미검증 상태, Google의 전체 색인 대기, 향후 실제 문의 채널 연결이다.
 - 다음 작업은 Search Console 데이터가 누적된 뒤 검색어·색인·콘텐츠 성과를 기준으로 개선하고, 광고 도입 시 별도 정책·배치 검토를 거치는 것이다.
+
+## 2026-09-15 — GA4 연결
+
+### 구현
+
+- Google Analytics 4 Measurement ID `G-PL6SGETMVL`을 공통 `src/layouts/BaseLayout.astro`에 연결했다.
+- 기존 GA4, gtag.js, Google Tag Manager, 다른 Analytics script가 없는 것을 확인한 뒤 단일 Google tag만 추가했다.
+- `Astro.url.hostname === 'car.emfls.com'`일 때만 스크립트를 렌더링해 localhost, Astro dev server, Cloudflare Preview에서 실제 page_view 전송을 제한했다.
+- AdSense, `ads.txt`, Publisher ID, GTM, custom event는 추가하지 않았다.
+
+### Privacy 및 검증
+
+- Privacy 페이지에 Google Analytics 사용 가능성, 방문·페이지 이용 정보 측정 가능성, Google 제공 분석 서비스라는 점을 기록했다.
+- 연비 계산기와 유지관리 플래너 입력값 자체를 서버 DB에 저장하지 않는다는 현재 상태도 함께 명시했다.
+- `npm test`: 9 tests passed
+- `npm run check`: 0 errors / 0 warnings / 0 hints
+- `npm run build`: 33 pages built
+- 다른 EMFLS Measurement ID와 중복 Analytics script는 확인되지 않았다.
+
+### 배포
+
+- 변경사항은 `main`에 push할 예정이며, Cloudflare Pages Git 자동 배포와 Production에서 `G-PL6SGETMVL` script 로딩을 확인한다.
