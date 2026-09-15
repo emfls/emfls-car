@@ -447,6 +447,11 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - 효과 없는 우회 설정은 제거하고 원본 파일은 `public/naver6dde13e69fe8ec25cd17e085c65c2124.html`에 유지했다. 로컬 build output에는 동일 content의 `dist/naver6dde13e69fe8ec25cd17e085c65c2124.html`이 생성된다.
 - 현재 Production verification URL은 HTTP 308 상태이므로 네이버 소유확인 완료로 판정하지 않는다.
 
+### Naver 인증 파일 교체
+
+- 새 네이버 원본 filename `naver56ed36d6c8e45978cf59972d7e6300e6.html`로 기존 인증 파일을 교체했다.
+- 기존 `naver6dde13e69fe8ec25cd17e085c65c2124.html`은 `public/`에서 제거했다.
+
 ## 2026-09-15 — GA4 연결
 
 ### 구현
