@@ -9,9 +9,11 @@ interface Props {
   description?: string;
   path?: string;
   noindex?: boolean;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description = site.description, path = Astro.url.pathname, noindex = false } = Astro.props;
+const { title, description = site.description, path = Astro.url.pathname, noindex = false, ogImage, jsonLd } = Astro.props;
 const canonical = new URL(path, site.domain).toString();
 const isProduction = Astro.url.hostname === 'car.emfls.com';
 ---
@@ -20,6 +22,7 @@ const isProduction = Astro.url.hostname === 'car.emfls.com';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#0d1214" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
@@ -30,8 +33,13 @@ const isProduction = Astro.url.hostname === 'car.emfls.com';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, site.domain).toString()} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={new URL(ogImage, site.domain).toString()} />}
     <title>{title} · {site.name}</title>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.domain, description })} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd ?? { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.domain, description })} />
     {isProduction && <>
       <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-PL6SGETMVL"></script>
       <script is:inline define:vars={{ measurementId: 'G-PL6SGETMVL' }}>
@@ -43,8 +51,9 @@ const isProduction = Astro.url.hostname === 'car.emfls.com';
     </>}
   </head>
   <body>
+    <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
     <Header />
-    <main><slot /></main>
+    <main id="main-content"><slot /></main>
     <Footer />
   </body>
 </html>

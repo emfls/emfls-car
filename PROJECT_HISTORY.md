@@ -399,6 +399,45 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - 남은 비차단 항목은 Domain property 미검증 상태, Google의 전체 색인 대기, 향후 실제 문의 채널 연결이다.
 - 다음 작업은 Search Console 데이터가 누적된 뒤 검색어·색인·콘텐츠 성과를 기준으로 개선하고, 광고 도입 시 별도 정책·배치 검토를 거치는 것이다.
 
+## 2026-09-15 — EMFLS Network Baseline v1 정렬
+
+### Sitemap 및 Editorial Policy
+
+- 수동 `public/sitemap.xml`을 제거하고 `src/pages/sitemap.xml.ts` endpoint로 자동 생성하도록 전환했다.
+- 단일 `<urlset>`만 생성하며 `sitemap-index.xml`과 `sitemap-0.xml`은 생성하지 않는다.
+- Production origin `https://car.emfls.com/`의 canonical public page, 10개 live guide, live tool 2개, About, Contact, Privacy, Editorial Policy만 포함한다.
+- 404, 빈 category, 준비 중 tool, legacy/duplicate guide route와 placeholder route는 제외한다. `<lastmod>`는 신뢰 가능한 수정일 데이터가 없어 임의로 넣지 않았다.
+- `/editorial-policy/`를 추가하고 Footer에서 연결했다. 제조사 매뉴얼 우선, 차량별 차이, 안전 관련 한계, 업데이트, AI·이미지·수정 요청 원칙을 실제 운영 범위에 맞게 기록했다.
+
+### SEO·접근성·문서 Baseline
+
+- BaseLayout의 기존 title, description, canonical, noindex, Open Graph, JSON-LD를 유지하면서 theme-color, Twitter metadata, optional `ogImage`/`jsonLd` interface를 보강했다.
+- 품질이 낮은 임시 raster를 만들지 않아 `og:image`는 아직 지정하지 않았고, Car 전용 1200×630 OG image를 후속 작업으로 남겼다.
+- skip link, `main` landmark id, keyboard focus-visible outline, `prefers-reduced-motion`을 추가했다. 계산기·플래너의 기존 label, aria-live, aria-invalid, validation과 상태 텍스트는 유지했다.
+- `CONTENT_POLICY.md`와 재사용 가능한 `LAUNCH_CHECKLIST.md`를 추가했다. 기존 AGENTS, README, SITE_STRATEGY, DESIGN_SYSTEM, TASKS, PROJECT_HISTORY, REPOSITORY_CONNECTION은 유지했다.
+
+### GA4·AdSense 및 보호 범위
+
+- GA4 `G-PL6SGETMVL`의 Production-only 구현은 변경하지 않았다. localhost, preview, pages.dev는 GA가 꺼진다.
+- AdSense loader, Publisher ID, ads.txt, 광고 slot, GTM은 추가하지 않았다. 기존 광고와 기능·경고 분리 원칙을 유지했다.
+- 계산기, 유지관리 플래너, 대표 가이드 10개, 기존 URL·slug, Search Console verification, trailing slash 정책은 변경하지 않았다.
+
+### 검증 및 Production QA
+
+- `npm test`: 9 tests passed
+- `npm run check`: 0 errors / 0 warnings / 0 hints
+- `npm run build`: 34 pages built
+- `npm run test:sitemap`: sitemap validation passed, 19 URLs
+- `git diff --check`: 통과
+- build output에서 `/sitemap.xml`, `/robots.txt`, `/editorial-policy/` 생성 확인
+- Production QA에서 homepage, sitemap, robots, Editorial Policy HTTP 200과 GA4 script 조건을 확인한다.
+
+### 다음 Network 공통 작업
+
+- Network-level AdSense 정책과 공통 Publisher 운영 기준 확정
+- Car 전용 1200×630 social preview raster 제작
+- Search Console·GA4 데이터 누적 후 콘텐츠와 접근성 세부 개선
+
 ## 2026-09-15 — GA4 연결
 
 ### 구현
