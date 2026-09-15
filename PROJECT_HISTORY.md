@@ -438,6 +438,30 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - Car 전용 1200×630 social preview raster 제작
 - Search Console·GA4 데이터 누적 후 콘텐츠와 접근성 세부 개선
 
+## 2026-09-15 — Production Visual / UI / UX Polish QA
+
+### 브라우저 점검
+
+- Production `car.emfls.com`에서 Homepage, Guides index, Guide detail, Tools index, Fuel Economy Calculator, Maintenance Planner, Editorial Policy를 390px 모바일과 기본 데스크톱 viewport로 확인했다.
+- 기존 graphite automotive dashboard, metric/status 언어, 색상 체계와 페이지 URL·기능은 유지했다.
+- Homepage·Guide index·Guide detail·Tools·Editorial Policy의 기본 hierarchy, 본문 폭, 카드 간격, 모바일 edge padding은 안정적이었다.
+
+### 발견 및 수정
+
+- 모바일 calculator/planner 입력 패널에서 제목과 `NO DATA SAVED` badge가 같은 행에 있어 한국어 제목이 `입력하세 / 요.`처럼 어색하게 wrap되는 문제가 있었다.
+- 620px 이하에서 `.calculator-form-head`를 세로 흐름으로 전환하고 badge에 상단 간격을 주어 제목이 자연스럽게 읽히도록 수정했다.
+- 별도 이미지가 없어도 dashboard identity와 정보 이해가 유지되는 화면에는 장식 이미지를 추가하지 않았다.
+- 이미지 asset, 콘텐츠 의미, URL, GA4, sitemap, robots, Search Console, AdSense는 변경하지 않았다.
+
+### 검증
+
+- `npm test`: 9 tests passed
+- `npm run test:sitemap`: 19 URLs passed
+- `npm run check`: 0 errors / 0 warnings / 0 hints
+- `npm run build`: 34 pages built
+- `git diff --check`: 통과
+- 로컬 dev server는 환경 권한 제한으로 실행되지 않아 Production 브라우저 렌더링을 기준으로 확인했다.
+
 ## 2026-09-15 — Naver 소유확인 파일 배치 수정
 
 - 원인: 네이버 인증 HTML이 repository root에만 있어 Astro/Cloudflare Pages build의 웹 루트로 복사되지 않았고 Production URL이 404를 반환했다.
