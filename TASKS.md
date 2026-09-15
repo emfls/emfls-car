@@ -33,8 +33,9 @@
 - [x] AdSense 심사 준비 QA 및 광고 미삽입 원칙 점검
 - [x] GA4 연결 및 Production 전용 측정 설정
 - [x] Network Baseline v1 alignment
-- [ ] Car 전용 1200×630 OG raster image 제작
+- [x] Car 전용 1200×630 OG raster image 제작
 - [x] Production Visual / UI / UX Polish QA
+- [x] Final responsive QA (320/375/768px)
 - [ ] Search Console 데이터 기반 개선
 - [ ] Winner 콘텐츠 확장
 - [ ] 접근성·성능 세부 최적화

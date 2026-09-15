@@ -499,3 +499,12 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - commit `7d25e35`를 `main`에 push했다.
 - Cloudflare Pages Git 자동 배포 후 `https://car.emfls.com/`에서 HTTP 200과 `G-PL6SGETMVL` Google tag loader를 확인했다.
 - `/privacy/` Production 응답에서 GA4 안내 문구와 입력값 서버 DB 비저장 안내를 확인했다.
+## 2026-09-15 — Car OG Image 및 최종 반응형 QA
+
+- `public/og-image.png`를 EMFLS CAR 전용 graphite automotive dashboard Social Preview 이미지로 추가했습니다. 생성 후 1200×630 PNG로 검증했습니다.
+- `src/layouts/BaseLayout.astro`에서 페이지별 `ogImage`가 있으면 우선 사용하고, 없으면 `https://car.emfls.com/og-image.png`를 `og:image`와 `twitter:image`의 공통 fallback으로 사용하도록 연결했습니다.
+- 320px, 375px, 390px, 768px 및 desktop viewport에서 홈페이지, 가이드 목록/상세, 도구 목록, 연비 계산기, 유지관리 플래너, Editorial Policy를 확인했습니다. 기존 모바일 폼 헤더 줄바꿈 보정도 Production에서 재확인했으며 추가 레이아웃 문제는 확인되지 않았습니다.
+- GA4, Search Console, sitemap, robots, canonical, trailing slash, AdSense 정책과 기존 URL은 변경하지 않았습니다.
+- `TASKS.md`에 OG image와 final responsive QA 완료 상태를 반영했습니다.
+- 검증: `npm test`, `npm run test:sitemap`, `npm run check`, `npm run build`, `git diff --check`.
+- 다음 단계: Search Console 데이터 기반 개선 및 접근성·성능 세부 최적화.
