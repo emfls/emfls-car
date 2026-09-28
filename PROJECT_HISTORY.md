@@ -508,3 +508,44 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - `TASKS.md`에 OG image와 final responsive QA 완료 상태를 반영했습니다.
 - 검증: `npm test`, `npm run test:sitemap`, `npm run check`, `npm run build`, `git diff --check`.
 - 다음 단계: Search Console 데이터 기반 개선 및 접근성·성능 세부 최적화.
+
+## 2026-09-29 — P0 Guide publishing gate and tool runtime parity
+
+### 시작 상태 및 범위
+
+- Site 4 `emfls-car`만 수정했다. 기존 원본 checkout은 그대로 두고 허용된 writable clone에서 진행했다.
+- 시작 HEAD와 GitHub `main`: `2dacda9994bed1d8709b59b8bebd12d79dc2c509`.
+- 최신 Production: Cloudflare deployment `3093b159-74ac-40b4-93aa-25308ea00cc9`, 성공 commit `2dacda9994bed1d8709b59b8bebd12d79dc2c509`.
+- 목적: 상세 본문이 없는 5개 Guide fallback의 발행·내부 링크·sitemap 포함을 막고, 근거가 있는 중복 URL만 정리하며, 테스트 코드와 브라우저 Tool 코드가 같은 함수를 사용하도록 한다.
+
+### 변경 내용
+
+- 상세 Guide와 catalog slug 교집합을 `publishedGuides`로 정의해 static route, Home, Guide index, Category cards, sitemap이 동일한 발행 집합을 사용하게 했다.
+- 10개 상세 Guide만 생성하고 fallback 5개(`wipers`, `coolant`, `fuel-economy`, `long-distance-driving`, `used-car-inspection`)는 더 이상 Home/Guide 목록/sitemap에 넣지 않는다.
+- 명확한 intent 쌍 3개는 `public/_redirects`에서 301로 대응 상세 Guide에 보낸다: wipers → wiper-replacement, coolant → coolant-check, long-distance-driving → long-distance-driving-checklist. `fuel-economy`와 `used-car-inspection`은 대응을 추정하지 않아 redirect하지 않는다.
+- Fuel Calculator와 Maintenance Planner의 브라우저 module이 각각 `src/lib/fuel-calculator.js`, `src/lib/maintenance-planner.js`의 테스트 대상 validation/calculation 함수를 import한다.
+- 회귀 테스트를 추가해 상세 Guide route 집합, sitemap, 기존 fallback 제외, redirect manifest, 생성 HTML local href/src를 검사한다.
+- `TASKS.md`, `SITE_STRATEGY.md`, `LAUNCH_CHECKLIST.md`, `REPOSITORY_CONNECTION.md`의 현재 상태와 P1 follow-up을 정리했다. Maintenance Planner의 기존 일반 10,000km oil-check 분기는 이 P0에서 동작 변경하지 않고 P1 재검토로 남겼다.
+
+### Code QA
+
+- Test-first: detail 없는 Guide가 publish될 때 실패하는 테스트를 먼저 확인한 다음 route/data 구현을 변경했다.
+- `npm test`: 11/11 PASS.
+- `npm run check`: 34 Astro files, 0 errors / 0 warnings / 0 hints.
+- `npm run build`: 29 static pages PASS; 상세 Guide route 10개만 생성.
+- `npm run test:sitemap`: PASS; 10 detailed guides, 5 unpublished fallbacks, 3 exact redirect-manifest rules, sitemap 19 URLs.
+- `npm run test:routes`: PASS; 30 HTML documents, 469 local href/src references.
+- `git diff --check`: PASS.
+
+### Production / Browser QA
+
+- 2026-09-29 Chrome Production에서 Home, Guide index, 5개 fallback, 완성된 와이퍼·냉각수·장거리 상세 Guide를 확인했다. Production은 아직 이전 코드이며 얇은 fallback 본문이 노출되고 있다.
+- 현재 Production/GitHub는 계속 `2dacda9994bed1d8709b59b8bebd12d79dc2c509`; 이 변경은 push/deploy하지 않았다.
+- 변경 코드 local Visual/Functional QA는 `npm run dev -- --host 127.0.0.1`의 sandbox `listen EPERM`과 Playwright Chrome SIGABRT/`kill EPERM`으로 NOT_RUN/BLOCKED다. 브라우저·포트 정책 우회는 하지 않았다.
+- Google/Naver/Daum/IndexNow 계정 상태는 이번 작업에서 새로 확인하지 않았다. Registry/Search Launch 상태를 추정 변경하지 않는다.
+
+### Checkpoint
+
+- 구현 commit: `fe5428db390d6641a1fd3c5509b9a3e405ca265b` (local `main`, GitHub 기준 1 commit ahead; no push/deploy).
+- Registry 유지 상태: `LIVE / Baseline PASS / Review NONE / Search Launch IN_PROGRESS`.
+- Next: Notion 작업 기록/Control Page/Registry/Work Queue를 현재 증거에 맞춰 동기화한 뒤 fresh Site Registry에서 다음 독립 실행 대상을 선택한다.
