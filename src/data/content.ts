@@ -149,6 +149,10 @@ export const guideDetails: GuideDetail[] = [
   },
 ];
 
+const guideDetailSlugs = new Set(guideDetails.map(({ slug }) => slug));
+export const publishedGuides = guides.filter(({ slug }) => guideDetailSlugs.has(slug));
+export const publishedCategories = categories.filter((category) => publishedGuides.some((guide) => guide.category === category.label));
+
 export const tools: Tool[] = [
   { slug: 'fuel-economy', title: '연비·주유비 계산기', summary: '주행거리와 연료량으로 연비와 주유비를 계산합니다.', state: 'ready' },
   { slug: 'fuel-cost-calculator', title: '주유비 계산기', summary: '예상 연료비와 거리당 비용을 계산합니다.', state: 'planned' },

@@ -28,6 +28,8 @@ P0는 대시보드형 홈페이지, 가이드·도구 목록, 정보 페이지, 
 
 모든 페이지는 semantic HTML, 고유 title/description, canonical, Open Graph를 사용한다. 내부 링크는 crawl 가능하게 유지하며 sitemap과 robots를 제공한다. 키워드 반복과 얇은 SEO 문구를 지양한다.
 
-## Monetization direction
+## Analytics and monetization direction
 
-향후 신뢰를 훼손하지 않는 범위에서 자동차 용품 제휴, 도구 기반 유료 기능, 브랜드 협업을 검토한다. P0에는 광고나 추적 코드를 넣지 않는다.
+현재 Google Analytics 4는 `car.emfls.com` Production에서만 실행하도록 연결되어 있다. 개발·미리보기 환경에서는 측정 코드를 실행하지 않는다. P0의 초기 범위에서는 광고와 추적 코드를 추가하지 않았으며, 이 기록은 현재 Production GA4 설정을 금지하는 정책이 아니다.
+
+향후 신뢰를 훼손하지 않는 범위에서 자동차 용품 제휴, 도구 기반 유료 기능, 브랜드 협업을 검토한다. AdSense 심사 준비 상태와 실제 광고 게재는 별도로 관리하며, 광고 loader·slot은 정책 검토와 명시적 구현 계획 없이 추가하지 않는다.

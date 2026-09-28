@@ -9,7 +9,11 @@
 - [ ] `/sitemap.xml` 200 및 XML 검증
 - [ ] `/robots.txt` 200 및 Production sitemap 참조
 - [ ] canonical과 trailing slash 확인
-- [ ] Search Console property·sitemap 확인
+- [ ] Google Search Console 소유권과 `/sitemap.xml` 제출 상태 확인
+- [ ] Naver Search Advisor 소유권과 `/sitemap.xml` 제출 상태 확인
+- [ ] Daum 사이트 등록 및 sitemap 적용 여부 확인 또는 `N/A` 근거 기록
+- [ ] IndexNow key/endpoint와 URL 제출 성공 여부 확인 또는 `N/A` 근거 기록
+- [ ] 실제 확인 결과를 Site Registry의 Search Launch 필드에 동기화
 - [ ] GA4 Production-only 동작 확인
 - [ ] About / Contact / Privacy / Editorial Policy 확인
 - [ ] broken internal link 및 placeholder 점검

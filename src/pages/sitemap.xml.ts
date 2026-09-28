@@ -1,24 +1,12 @@
 import type { APIRoute } from 'astro';
-import { guides } from '@/data/content';
+import { publishedGuides } from '@/data/content';
 
 const productionOrigin = 'https://car.emfls.com';
-const liveGuideSlugs = new Set([
-  'engine-oil-change-interval',
-  'tire-pressure',
-  'car-battery-replacement',
-  'brake-pad-replacement',
-  'dashboard-warning-lights',
-  'wiper-replacement',
-  'coolant-check',
-  'long-distance-driving-checklist',
-  'tire-replacement',
-  'fuel-economy-drop',
-]);
 
 const publicPaths = [
   '/',
   '/guides/',
-  ...guides.filter((guide) => liveGuideSlugs.has(guide.slug)).map((guide) => `/guides/${guide.slug}/`),
+  ...publishedGuides.map((guide) => `/guides/${guide.slug}/`),
   '/tools/',
   '/tools/fuel-economy/',
   '/tools/maintenance-planner/',
