@@ -17,7 +17,7 @@
 - [ ] 리뷰된 변경을 Production에 배포하고 canonical/robots/sitemap/404와 redirect 동작을 재검증한다.
 - [ ] 공개 Production key 확인 후 IndexNow URL 실제 제출을 수행한다.
 - [ ] Google Search Console·Naver Search Advisor 로그인 후 소유권/sitemap 상태를 재확인한다.
-- [ ] Daum 등록은 공식 절차의 개인정보/사이트 소유권 동의 필요 여부를 판단한 뒤 검색 상태와 sitemap 가능 여부를 기록한다.
+- [ ] Daum Search Registration과 sitemap Seed URL 제출 상태를 확인한다. 공식 가이드는 sitemap Seed URL 제출을 지원한다고 설명하며, Search Registration은 개인정보/사이트 소유권 동의 단계가 있다. 현재 둘 다 NOT_SET이다.
 
 ## P0 — Foundation (완료)
 
