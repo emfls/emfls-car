@@ -9,6 +9,16 @@
 - [ ] 승인된 배포 후 공개 Production의 route, sitemap, tool interaction을 다시 확인한다.
 - [ ] Google / Naver / Daum / IndexNow Search Launch의 계정 상태를 확인하고 Registry에 기록한다.
 
+## 2026-09-29 — Foundation/Search Launch horizontal pass
+
+- [x] Site4 전용 IndexNow key 파일과 생성 산출물 일치 검증을 추가한다.
+- [x] Naver verification `.html` 경로만 처리하는 Pages Function 및 단일 경로 `_routes.json` allowlist를 추가한다.
+- [ ] Cloudflare PR Preview에서 Naver exact URL HTTP 200 및 다른 정적 경로 비호출을 확인한다.
+- [ ] 리뷰된 변경을 Production에 배포하고 canonical/robots/sitemap/404와 redirect 동작을 재검증한다.
+- [ ] 공개 Production key 확인 후 IndexNow URL 실제 제출을 수행한다.
+- [ ] Google Search Console·Naver Search Advisor 로그인 후 소유권/sitemap 상태를 재확인한다.
+- [ ] Daum 등록은 공식 절차의 개인정보/사이트 소유권 동의 필요 여부를 판단한 뒤 검색 상태와 sitemap 가능 여부를 기록한다.
+
 ## P0 — Foundation (완료)
 
 - [x] Astro static foundation

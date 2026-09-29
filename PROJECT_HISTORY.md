@@ -549,3 +549,40 @@ P2에서 Search Console과 실제 검색 질문을 기준으로 상위 가이드
 - 구현 commit: `fe5428db390d6641a1fd3c5509b9a3e405ca265b` (local `main`, GitHub 기준 1 commit ahead; no push/deploy).
 - Registry 유지 상태: `LIVE / Baseline PASS / Review NONE / Search Launch IN_PROGRESS`.
 - Next: Notion 작업 기록/Control Page/Registry/Work Queue를 현재 증거에 맞춰 동기화한 뒤 fresh Site Registry에서 다음 독립 실행 대상을 선택한다.
+
+## 2026-09-29 — Foundation/Search Launch horizontal pass
+
+### Site / branch / scope
+
+- Site 4 `emfls-car`만 수정했다. 작업 경로는 `/Users/whitesmile/Documents/emfls-all/emfls-car`; 별도 원본 checkout은 보존했다.
+- Branch `codex/site4-foundation-search`; 시작 GitHub `main` / local `origin/main`은 `2dacda9994bed1d8709b59b8bebd12d79dc2c509`이었다. 기존 local P0/history 커밋 `fe5428d`와 `1efd546`을 포함해 분기했다.
+- Cloudflare Pages project `emfls-car` id `7a5fd515-cf6b-4369-80d8-ae10ae91a60c`, custom domain `car.emfls.com` active. Production은 여전히 deployment `3093b159-74ac-40b4-93aa-25308ea00cc9`, commit `2dacda9994bed1d8709b59b8bebd12d79dc2c509`를 가리킨다.
+
+### Foundation/Search changes
+
+- Site-specific 256-bit hex IndexNow key를 `public/547132e9029d1145523d2afc9b571e1f18cdd6ad5c3ee04aef3e5f902aa8f896.txt`에 두고 body/name 일치를 generated-output validator로 검사한다. 키가 아직 Production에서 공개되지 않아 실제 URL 제출은 보내지 않았다.
+- Cloudflare Pages가 `.html`을 extensionless route로 redirect하는 기본 동작으로 Naver verification file이 308되는 문제를 겨냥해 exact path Function `functions/naver56ed36d6c8e45978cf59972d7e6300e6.html.js`를 추가했다. `public/_routes.json`은 해당 경로 하나만 include해 나머지 static route 요청이 Function을 호출하지 않게 제한했다.
+- Naver handler unit test는 HTTP 200, `text/plain; charset=utf-8`, 원본 verification body를 확인한다. Generated-output validation은 key 파일과 exact single-route allowlist를 검증한다.
+- 앞선 P0 구현 `fe5428d`는 얇은 fallback Guide 5개를 publish set, Home/list/category, sitemap에서 제외하고 근거가 있는 세 route만 301 처리한다. Tool의 테스트/브라우저 로직을 동일한 계산 함수로 맞췄다.
+
+### Code QA
+
+- `npm test`: 12/12 PASS.
+- `npm run check`: 36 files, 0 errors / 0 warnings / 0 hints.
+- `npm run build`: 29 static pages PASS.
+- `npm run test:sitemap`: 19 URLs, 10 published detail guides, five thin fallback routes excluded, one exact Naver Function route, matching IndexNow key PASS.
+- `npm run test:routes`: 30 HTML files, 469 local href/src references PASS.
+- `git diff --check`: PASS.
+
+### Browser / Production / external Search
+
+- Local preview browser confirmed the Home identity/navigation/trust links, custom 404 content, and exact Naver verifier text asset. Local HTTP check returned 200 for Home, robots, sitemap, detailed guide, and key; 404 for unknown and unpublished fallback routes. Home canonical is `https://car.emfls.com/`; robots points to production sitemap; sitemap has 19 URLs and omits thin fallbacks.
+- The local Astro Preview does not run Cloudflare Pages Functions. Naver Function precedence and exact `.html` HTTP 200 still need a Git-connected Pages PR Preview proof. Production remains on the old deployment with thin fallback pages, so no Production fix or IndexNow submission is claimed.
+- Google Search Console currently presents a sign-in page. Historical repo evidence records its URL-prefix property and sitemap submission as complete on 2026-09-14, but neither was rechecked in the authenticated console. Naver `/console/board` redirects to login; no credentials, QR login, or 2FA were used. Daum public registration requires personal-data and site-ownership consent; no registration or consent was submitted.
+- Chrome Production rendered the existing site and custom 404 content. Shell DNS resolution for GitHub and car.emfls.com is unavailable; direct Production robots/sitemap reads from browser are client-blocked. No exact 1440/390/320 screenshots were captured; detailed design polish remains deferred.
+
+### Commit / status / next action
+
+- Foundation/Search implementation commit: `638f11a` (`feat: prepare car search launch verification`). A separate documentation sync commit follows this record.
+- Keep Registry `Build LIVE / Baseline PASS / Review NONE / Search Launch IN_PROGRESS / IndexNow NOT_SET / Sitemap Summary PARTIAL`; Google SET/SUBMITTED remains historical pending authenticated recheck; Naver and Daum remain NOT_SET.
+- Next: publish the feature branch as a PR, use Pages Preview to verify the exact Naver response and route allowlist, then sync Registry/Control Page. After reviewed Production delivery, recheck the public key and submit updated Site4 URLs to IndexNow. External login/consent stages remain site-local blockers; continue with the next ascending eligible site after recording this cycle.
