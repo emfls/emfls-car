@@ -1,8 +1,9 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { strict as assert } from 'node:assert';
 
 const xml = await readFile(new URL('../dist/sitemap.xml', import.meta.url), 'utf8');
+const publicFiles = await readdir(new URL('../dist/', import.meta.url));
 const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
 assert.equal((xml.match(/<urlset\b/g) ?? []).length, 1);
@@ -19,6 +20,20 @@ assert(!urls.some((url) => url.includes('/404')));
 assert(!urls.some((url) => url.includes('/category/ev/')));
 assert(!urls.some((url) => url.includes('/wipers/')));
 assert(!urls.some((url) => url.includes('/guides/coolant/')));
+
+const indexNowKeys = publicFiles.filter((file) => /^[a-f0-9]{64}\.txt$/.test(file));
+assert.equal(indexNowKeys.length, 1, 'Production output must contain one site-specific IndexNow key file');
+const indexNowKey = indexNowKeys[0].slice(0, -4);
+assert.equal((await readFile(new URL(`../dist/${indexNowKeys[0]}`, import.meta.url), 'utf8')).trim(), indexNowKey);
+
+const functionRoutesOutput = await readFile(new URL('../dist/_routes.json', import.meta.url), 'utf8').catch(() => null);
+assert.ok(functionRoutesOutput, 'Cloudflare Pages must invoke the verification handler on the exact Naver route');
+const functionRoutes = JSON.parse(functionRoutesOutput);
+assert.deepEqual(functionRoutes, {
+  version: 1,
+  include: ['/naver56ed36d6c8e45978cf59972d7e6300e6.html'],
+  exclude: [],
+});
 
 const publishedGuideSlugs = [
   'engine-oil-change-interval',
@@ -59,4 +74,4 @@ for (const slug of thinGuideSlugs) {
   assert(!guidesIndex.includes(`/guides/${slug}/`), `Guide index must not link to unpublished guide ${slug}`);
 }
 
-console.log(`guide publication and sitemap validation passed: ${publishedGuideSlugs.length} detailed guides, ${thinGuideSlugs.length} unpublished fallbacks, ${urls.length} sitemap URLs`);
+console.log(`guide publication and sitemap validation passed: ${publishedGuideSlugs.length} detailed guides, ${thinGuideSlugs.length} unpublished fallbacks, ${urls.length} sitemap URLs, IndexNow key output valid`);
